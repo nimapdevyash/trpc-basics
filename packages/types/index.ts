@@ -7,3 +7,5 @@ const todo = z.object({
 });
 
 export type Todo = z.infer<typeof todo>;
+
+export type OperatioinType = "map" | "filter" | "push";

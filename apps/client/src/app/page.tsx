@@ -14,13 +14,12 @@ const trpcClientInstance = createTRPCClient<serverType>({
 });
 
 export default function Home() {
-  const [todos, setTodos] = React.useState<Todo[]>([]);
+  const [todos, setTodos] = React.useState<Todo[] | []>([]);
 
   const taskRef = React.useRef<HTMLInputElement>(null);
 
   async function loadTodos() {
-    const todosRes = await trpcClientInstance.getAllTodos.query();
-
+    const todosRes = await trpcClientInstance.todo.getAll.query();
     setTodos(todosRes);
   }
 
@@ -33,18 +32,13 @@ export default function Home() {
 
     if (!taskRef.current?.value) return;
 
-    const upatedTodos = await trpcClientInstance.addTodo.mutate({
+    const upatedTodos = await trpcClientInstance.todo.add.mutate({
       task: taskRef.current.value,
     });
 
     taskRef.current.value = "";
-
     setTodos(upatedTodos);
-
-    return {};
   }
-
-  console.log(todos);
 
   return (
     <div>
@@ -72,7 +66,7 @@ export default function Home() {
                 type="button"
                 onClick={async () => {
                   const udatedTodos =
-                    await trpcClientInstance.toggleComplete.mutate({
+                    await trpcClientInstance.todo.toggle.mutate({
                       id: todo.id,
                     });
                   setTodos(udatedTodos);
@@ -85,7 +79,9 @@ export default function Home() {
                 type="button"
                 onClick={async () => {
                   const updatedTodos =
-                    await trpcClientInstance.deleteTodo.mutate({ id: todo.id });
+                    await trpcClientInstance.todo.remove.mutate({
+                      id: todo.id,
+                    });
                   setTodos(updatedTodos);
                 }}
               >
