@@ -1,5 +1,5 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { id, timeStamps } from "./index";
+import { id, timeStamps } from "./commonComponents";
 import { users } from "./users";
 
 export const todos = sqliteTable("todos", {
