@@ -1,6 +1,6 @@
 import { createHTTPServer } from "@trpc/server/adapters/standalone";
 import cors from "cors";
-import { globalRouter } from "./routers";
+import { globalRouter } from "./src/routers";
 import { createContext } from "./configs/context";
 
 export type serverType = typeof globalRouter;

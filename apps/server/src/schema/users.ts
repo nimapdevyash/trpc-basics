@@ -3,7 +3,7 @@ import { id, timeStamps } from "./commonComponents";
 
 export const users = sqliteTable("users", {
   name: text("name").notNull().unique(),
-  passwordHash: text("passowrd").notNull(),
+  password: text("passowrd").notNull(),
   email: text("email").notNull().unique(),
 
   ...id,

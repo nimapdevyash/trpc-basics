@@ -1,8 +1,5 @@
 import * as z from "zod";
-
-export const idValidation = z.object({
-  id: z.number(),
-});
+import { idValidation } from ".";
 
 export const taskValidation = z.object({
   task: z.string().trim().nonempty(),
