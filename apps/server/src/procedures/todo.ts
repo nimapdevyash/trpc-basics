@@ -1,11 +1,7 @@
 import { publictProcedure } from "../../configs/trpc";
 import * as todoService from "../services/todo";
-import {
-  idValidation,
-  taskValidation,
-  todoObjectValidation,
-  todosOutputValidation,
-} from "../validations/todo";
+import { idValidation } from "../validations";
+import { taskValidation } from "../validations/todo";
 
 // mutations
 export const add = publictProcedure

@@ -15,12 +15,11 @@ export const createUserAccount = async ({
     .select()
     .from(users)
     .where(eq(users.email, input.email));
-  if (existingUserRecord)
+
+  if (existingUserRecord.length > 0)
     throw new Error("User With This Email Already Exists");
 
-  const createdUserRecord = await ctx.db.insert(users).values(input);
-
-  console.log("Resposne of Created Account: ", createdUserRecord);
+  await ctx.db.insert(users).values(input);
 
   return "User Account Created Successfully";
 };
@@ -36,17 +35,15 @@ export const updateUserAccount = async ({
     .select()
     .from(users)
     .where(eq(users.id, input.id));
-  if (!existingUserRecord) throw new Error("Invlid userId");
+  if (existingUserRecord.length === 0) throw new Error("Invlid userId");
 
-  const updatedUserRecord = await ctx.db
+  await ctx.db
     .update(users)
     .set({
       ...(input.name && { name: input.name }),
       ...(input.email && { email: input.email }),
     })
     .where(eq(users.id, input.id));
-
-  console.log("Response Of Updated User: ", updatedUserRecord);
 
   return "User Updated Successfully";
 };

@@ -5,10 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch index.ts",
-    "db:barrels": "tsx scripts/gen-db-barrels.ts",
-    "predev": "pnpm db:barrels",
-    "db:generate": "pnpm run db:barrels && drizzle-kit generate"
+    "dev": "tsx watch index.ts"
   },
   "exports": "./index.ts",
   "keywords": [],
@@ -29,7 +26,7 @@
     "@types/cors": "^2.8.19",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.19.43",
-    "drizzle-kit": "1.0.0-rc.4",
+    "drizzle-kit": "^0.31.11",
     "tsx": "^4.23.15"
   }
 }

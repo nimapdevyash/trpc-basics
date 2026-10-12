@@ -3,7 +3,7 @@ import * as schemas from "../../src/schema";
 import * as relations from "../../src/relations";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
-const DatabaseClientInstance = new Database("./dbFile.db");
+const DatabaseClientInstance = new Database(`${import.meta.dirname}/dbFile.db`);
 DatabaseClientInstance.pragma("foreign_keys = ON");
 
 export const db = drizzle(DatabaseClientInstance, {
