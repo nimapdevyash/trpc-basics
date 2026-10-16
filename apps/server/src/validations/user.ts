@@ -12,4 +12,3 @@ export const updateUserAccountValidation = z.object({
   email: z.string().trim().nonempty().optional(),
 });
 
-export type UpdateUserAccount = z.infer<typeof updateUserAccountValidation>;

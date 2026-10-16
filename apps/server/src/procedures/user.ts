@@ -1,4 +1,4 @@
-import { publictProcedure } from "../../configs/trpc";
+import { privateProcedure, publictProcedure } from "../../configs/trpc";
 import * as userService from "../services/user";
 import { idValidation } from "../validations";
 import * as userValidation from "../validations/user";
@@ -7,15 +7,17 @@ export const createUser = publictProcedure
   .input(userValidation.createUserAccountValidation)
   .mutation(userService.createUserAccount);
 
-export const updateUser = publictProcedure
+export const updateUser = privateProcedure
   .input(userValidation.updateUserAccountValidation)
-  .mutation(userService.updateUserAccount);
+  .mutation(({ ctx, input }) =>
+    userService.updateUserAccount({ userId: ctx.user.id, input }),
+  );
 
-export const deleteUser = publictProcedure
+export const deleteUser = privateProcedure
   .input(idValidation)
   .mutation(userService.deleteUserAccount);
 
-export const getMyUserAccount = publictProcedure.query(
+export const getMyUserAccount = privateProcedure.query(
   userService.getMyUserAccount,
 );
 
@@ -26,3 +28,5 @@ export const getUserAccountById = publictProcedure
 export const getAllUserAccounts = publictProcedure.query(
   userService.getAllUserAccounts,
 );
+
+export const test = privateProcedure.mutation(({ ctx }) => ctx.user.id);

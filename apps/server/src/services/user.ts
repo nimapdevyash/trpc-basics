@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { Context } from "../../configs/context";
 import { NewUser, User, users } from "../schema";
-import { UpdateUserAccount } from "../validations/user";
 
 /*************************** Mutation ***************************/
 export const createUserAccount = async ({
@@ -25,47 +24,27 @@ export const createUserAccount = async ({
 };
 
 export const updateUserAccount = async ({
+  userId,
   input,
-  ctx,
 }: {
-  input: UpdateUserAccount;
-  ctx: Context;
+  input: { name?: string; email?: string };
+  userId: number;
 }) => {
-  const existingUserRecord = await ctx.db
-    .select()
-    .from(users)
-    .where(eq(users.id, input.id));
-  if (existingUserRecord.length === 0) throw new Error("Invlid userId");
-
   await ctx.db
     .update(users)
     .set({
       ...(input.name && { name: input.name }),
       ...(input.email && { email: input.email }),
     })
-    .where(eq(users.id, input.id));
+    .where(eq(users.id, userId));
 
   return "User Updated Successfully";
 };
 
-export const deleteUserAccount = async ({
-  input,
-  ctx,
-}: {
-  input: Pick<User, "id">;
-  ctx: Context;
-}) => {
-  const existingUserRecord = await ctx.db
-    .select()
-    .from(users)
-    .where(eq(users.id, input.id));
-  if (!existingUserRecord) throw new Error("Invlid UserId");
+export const deleteUserAccount = async ({ ctx }: { ctx: Context }) => {
+  if (!ctx.user) throw new Error("this is a protected route");
 
-  const deletedUserRecord = await ctx.db
-    .delete(users)
-    .where(eq(users.id, input.id));
-
-  console.log("Response Of Deleted User: ", deletedUserRecord);
+  await ctx.db.delete(users).where(eq(users.id, ctx.user.id));
 
   return "User Account Deleted Successfully";
 };
